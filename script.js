@@ -1,6 +1,20 @@
 console.log("Let's write javascript")
 let currentsong=new Audio();
 
+function secondsToMinutesSeconds(seconds) {
+    if (isNaN(seconds) || seconds < 0) {
+        return "00:00";
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
 async function getsongs() {
     let a = await fetch("http://127.0.0.1:5500/Spotify%20clone/songs/")
     let response = await a.text();
@@ -18,15 +32,25 @@ async function getsongs() {
     return songs
 }
 
-const playmusic=(track)=>{
+const playmusic=(track,pause=false)=>{
     currentsong.src="/Spotify%20clone/songs/" + track
-    currentsong.play()
+
+    if(!pause){
+        currentsong.play()
+        play.classList.remove("fa-play");
+        play.classList.add("fa-pause");
+
+    }
+
+    document.querySelector(".songinfo").innerHTML=decodeURI(track)
+    document.querySelector(".songtime").innerHTML="00:00 / 00:00"
 }
 
 async function main() {
 
     //get list of all the songs
     let s=await getsongs()
+    playmusic(s[0],true)
 
     //show all the songs in the playlist
     let songUL=document.querySelector(".songList").getElementsByTagName("ul")[0]
@@ -68,6 +92,19 @@ async function main() {
             play.classList.add("fa-play");
         }
     })
+
+    //listener for timeupdate
+
+    currentsong.addEventListener("timeupdate",()=>{
+        console.log(currentsong.currentTime,currentsong.duration)
+        document.querySelector(".songtime").innerHTML=`${secondsToMinutesSeconds(currentsong.currentTime)}/${secondsToMinutesSeconds(currentsong.duration)}`
+        document.querySelector(".circle").style.left=(currentsong.currentTime/currentsong.duration)*100 + "%"
+    })
+
+    //add an eventlistener to seekbar
+    document.querySelector(".seekbar").addEventListener("click"),e=>{
+        console.log(e)
+    }
 }
 
 main()
