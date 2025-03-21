@@ -1,4 +1,5 @@
 console.log("Let's write javascript")
+let currentsong=new Audio();
 
 async function getsongs() {
     let a = await fetch("http://127.0.0.1:5500/Spotify%20clone/songs/")
@@ -17,7 +18,13 @@ async function getsongs() {
     return songs
 }
 
+const playmusic=(track)=>{
+    currentsong.src="/Spotify%20clone/songs/" + track
+    //currentsong.play()
+}
+
 async function main() {
+
     //get list of all the songs
     let s=await getsongs()
 
@@ -38,6 +45,25 @@ async function main() {
                             </div></li>`
     }
 
+    //attach eventlistener to each song
+
+    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(e=>{
+
+        e.addEventListener("click",ele=>{
+        console.log(e.querySelector(".info").firstElementChild.innerHTML)
+        playmusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
+        })
+    })
+
+    //attach event listener for prev play next
+    playmusic.addEventListener("click",()=>{
+        if(currentsong.paused){
+            currentsong.play()
+        }
+        else{
+            currentsong.pause()
+        }
+    })
 }
 
 main()
