@@ -20,7 +20,7 @@ async function getsongs() {
 
 const playmusic=(track)=>{
     currentsong.src="/Spotify%20clone/songs/" + track
-    //currentsong.play()
+    currentsong.play()
 }
 
 async function main() {
@@ -56,12 +56,16 @@ async function main() {
     })
 
     //attach event listener for prev play next
-    playmusic.addEventListener("click",()=>{
+    play.addEventListener("click",()=>{
         if(currentsong.paused){
             currentsong.play()
+            play.classList.remove("fa-play");
+            play.classList.add("fa-pause");
         }
         else{
             currentsong.pause()
+            play.classList.remove("fa-pause");
+            play.classList.add("fa-play");
         }
     })
 }
