@@ -102,9 +102,13 @@ async function main() {
     })
 
     //add an eventlistener to seekbar
-    document.querySelector(".seekbar").addEventListener("click"),e=>{
-        console.log(e)
-    }
+    document.querySelector(".seekbar").addEventListener("click", (e) => {
+
+        let percent=(e.offsetX/e.target.getBoundingClientRect().width)*100
+        document.querySelector(".circle").style.left= percent + "%";
+        currentsong.currentTime=(currentsong.duration*percent)/100
+    })
+
 }
 
 main()

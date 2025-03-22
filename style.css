@@ -188,6 +188,10 @@ body{
     margin-bottom: 44px;
 }
 
+.hamburger{
+    display: none;
+}
+
 .songList ul{
     padding: 0 12px;
 }
@@ -223,7 +227,7 @@ body{
 }
 
 .seekbar{
-    height: 2px;
+    height: 4px;
     width: 66vw;
     background-color: black;
     position: absolute;
@@ -256,4 +260,27 @@ body{
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+@media (max-width:1400px) {
+
+    .left{
+        background-color: red;
+        position: absolute;
+        left: -100%;
+        transition: all .3s;
+        z-index: 1;
+        width: 233px;
+    }
+    .right{
+        width: 100vw;
+    }
+
+    .playbar{
+        width: 95vw;
+    }
+    .hamburger{
+        display: block;
+    }
+    
 }
