@@ -1,5 +1,6 @@
 console.log("Let's write javascript")
 let currentsong=new Audio();
+let s;
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -49,7 +50,7 @@ const playmusic=(track,pause=false)=>{
 async function main() {
 
     //get list of all the songs
-    let s=await getsongs()
+    s=await getsongs()
     playmusic(s[0],true)
 
     //show all the songs in the playlist
@@ -97,7 +98,7 @@ async function main() {
 
     currentsong.addEventListener("timeupdate",()=>{
         console.log(currentsong.currentTime,currentsong.duration)
-        document.querySelector(".songtime").innerHTML=`${secondsToMinutesSeconds(currentsong.currentTime)}/${secondsToMinutesSeconds(currentsong.duration)}`
+        document.querySelector(".songtime").innerHTML=`${secondsToMinutesSeconds(currentsong.currentTime)} / ${secondsToMinutesSeconds(currentsong.duration)}`
         document.querySelector(".circle").style.left=(currentsong.currentTime/currentsong.duration)*100 + "%"
     })
 
@@ -118,6 +119,36 @@ async function main() {
     document.querySelector(".close").addEventListener("click",()=>{
         document.querySelector(".left").style.left="-130%"
     })    
+
+    //add an event listener to prev and next
+    prev.addEventListener("click",()=>{
+        console.log("previous clicked")
+
+        let index=s.indexOf(currentsong.src.split("/").slice(-1)[0])
+        if (index > 0) {
+            // Move to the previous song (index - 1)
+            playmusic(s[index - 1]);
+        } else {
+            // If at the first song, loop to the last song
+            playmusic(s[s.length - 1]);
+        }
+        console.log(currentsong)
+    })
+
+    //add an event listener to prev and next
+    next.addEventListener("click",()=>{
+        console.log("Next clicked")
+
+        let index=s.indexOf(currentsong.src.split("/").slice(-1)[0])
+        if (index < s.length - 1) {
+            // Move to the next song (index + 1)
+            playmusic(s[index + 1]);
+        } else {
+            // If at the last song, loop back to the first song
+            playmusic(s[0]);
+        }
+        console.log(s,index)
+    })
 }
 
 main()

@@ -6,6 +6,10 @@
     font-family: 'Roboto',sans-serif;
 }
 
+.close{
+    display: none;
+}
+
 body{
     background-color: black;
     color: white;
@@ -77,6 +81,10 @@ body{
     padding: 16px;
 }
 
+.spotifyPlaylists h1{
+    padding: 16px;
+}
+
 .spotifyPlaylists .card{
     width: 150px;
     padding: 10px;
@@ -127,8 +135,12 @@ body{
     font-size: 1.6rem;
 }
 
+.buttons{
+    display: flex;
+    flex-wrap: nowrap;
+}
 .buttons >*{
-    margin: 0 12px;
+    margin: 0 1vw;
 }
 
 .signupbtn{
@@ -222,6 +234,10 @@ body{
     width: 344px;
 }
 
+.info div{
+    word-break: break-all;
+}
+
 .playnow{
     display: flex;
     justify-content: center;
@@ -262,6 +278,7 @@ body{
 
 .songinfo, .songtime{
     padding: 0 12px;
+    width: 250px;
 }
 
 .abovebar{
@@ -280,6 +297,7 @@ body{
         z-index: 1;
         width: 373px;
         background-color: black;
+        padding: 0;
     }
 
     .left .close{
@@ -291,18 +309,41 @@ body{
 
     .right{
         width: 100vw;
+        margin: 0;
     }
 
     .playbar{
-        width: calc(100vw - 60px);
+        width: calc(100vw - 75px);
     }
 
     .seekbar{
-        width: calc(100vw - 70px);
+        width: calc(100vw - 120px);
     }
 
     .hamburger{
         display: block;
     }
-    
+
+    .spotifyPlaylists .card{
+        width: 90vw;
+    }
+
+    .cardContainer{
+        justify-content: center;
+        margin: 0;
+    }
+
+    .close{
+        display: block;
+    }
+
+    .abovebar{
+        flex-direction: column;
+        gap: 23px;
+        align-items: center;
+    }
+
+    .songinfo,.songtime{
+        width: auto;
+    }
 }
