@@ -276,9 +276,27 @@ body{
     cursor: pointer;
 }
 
-.songinfo, .songtime{
+.timevol{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.songinfo{
     padding: 0 12px;
     width: 250px;
+}
+
+.songtime{
+    padding: 0 12px;
+    width: 125px;
+}
+
+.volume{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 .abovebar{
@@ -305,6 +323,15 @@ body{
         right: 31px;
         top: 25px;
         width: 30px;
+    }
+
+    .timevol{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+        gap: 13px;
+
     }
 
     .right{

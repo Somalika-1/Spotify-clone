@@ -1,4 +1,3 @@
-console.log("Let's write javascript")
 let currentsong=new Audio();
 let s;
 
@@ -75,7 +74,6 @@ async function main() {
     Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(e=>{
 
         e.addEventListener("click",ele=>{
-        console.log(e.querySelector(".info").firstElementChild.innerHTML)
         playmusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
         })
     })
@@ -97,7 +95,6 @@ async function main() {
     //listener for timeupdate
 
     currentsong.addEventListener("timeupdate",()=>{
-        console.log(currentsong.currentTime,currentsong.duration)
         document.querySelector(".songtime").innerHTML=`${secondsToMinutesSeconds(currentsong.currentTime)} / ${secondsToMinutesSeconds(currentsong.duration)}`
         document.querySelector(".circle").style.left=(currentsong.currentTime/currentsong.duration)*100 + "%"
     })
@@ -132,7 +129,6 @@ async function main() {
             // If at the first song, loop to the last song
             playmusic(s[s.length - 1]);
         }
-        console.log(currentsong)
     })
 
     //add an event listener to prev and next
@@ -147,7 +143,12 @@ async function main() {
             // If at the last song, loop back to the first song
             playmusic(s[0]);
         }
-        console.log(s,index)
+    })
+
+    //add an event to volume
+    document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change",(e)=>{
+        console.log("vol changed to ",e.target.value,"/100")
+        currentsong.volume=parseInt(e.target.value)/100
     })
 }
 
