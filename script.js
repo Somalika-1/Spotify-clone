@@ -1,5 +1,6 @@
 let currentsong=new Audio();
 let s;
+let currFolder;
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -15,8 +16,10 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function getsongs() {
-    let a = await fetch("http://127.0.0.1:5500/Spotify%20clone/songs/")
+async function getsongs(folder) {
+    currFolder=folder;
+
+    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/${folder}/`)
     let response = await a.text();
 
     let div = document.createElement("div")
@@ -27,13 +30,13 @@ async function getsongs() {
     for (let i = 0; i < as.length; i++) {
         const ele = as[i]
         if (ele.href.endsWith(".mp3"))
-            songs.push(ele.href.split("/songs/")[1]);
+            songs.push(ele.href.split(`/${folder}/`)[1]);
     }
     return songs
 }
 
 const playmusic=(track,pause=false)=>{
-    currentsong.src="/Spotify%20clone/songs/" + track
+    currentsong.src = `/Spotify%20clone/${currFolder}/` + track
 
     if(!pause){
         currentsong.play()
@@ -49,7 +52,7 @@ const playmusic=(track,pause=false)=>{
 async function main() {
 
     //get list of all the songs
-    s=await getsongs()
+    s=await getsongs("songs/ncs")
     playmusic(s[0],true)
 
     //show all the songs in the playlist
@@ -147,7 +150,6 @@ async function main() {
 
     //add an event to volume
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change",(e)=>{
-        console.log("vol changed to ",e.target.value,"/100")
         currentsong.volume=parseInt(e.target.value)/100
     })
 }
