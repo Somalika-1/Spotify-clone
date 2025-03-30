@@ -86,37 +86,52 @@ const displayAlbums = async () => {
     let div = document.createElement("div")
     div.innerHTML = response
 
-    let anchors = Array.from(div.getElementsByTagName("a"))
+    let anchors = div.getElementsByTagName("a")
 
-    anchors.forEach(async e => {
+    let cardContainer = document.querySelector(".cardContainer")
+    let array = Array.from(anchors)
+
+    for (let index = 0; index < array.length; index++) {
+        const e = array[index];
+
+        if (e.textContent=="songs") {
+            continue;
+        }
+
         if (e.href.includes("/songs")) {
             let folder = e.href.split("/").slice(-1)
-            console.log(folder)
+            
             //get metadata of the folder
 
-            try {
                 let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/songs/${folder}/info.json`)
                 let response = await a.json();
 
-                console.log(response)
-
-                let cardContainer=document.querySelector(".cardContainer")
+                let cardContainer = document.querySelector(".cardContainer")
                 cardContainer.innerHTML = cardContainer.innerHTML + ` <div data-folder="${folder}" class="card">
             <div class="play">
                 <i class="fa-solid fa-play" style="color: #000000"></i>
             </div>
 
-            <img src="/songs/${folder}/cover.jpg" alt="">
+            <img src="./songs/${folder}/cover.jpg" alt="">
             <h2>${response.title}</h2>
             <p>${response.description}</p>
         </div>`
 
-            }
-            catch (error) {
-                console.error(`Error fetching metadata for ${folder}:`, error);
-            }
+            
 
         }
+    }
+
+    //Load the playlist whenever card is clicked
+    document.querySelectorAll(".card").forEach(e => {
+        e.addEventListener("click", async item => {
+            const folder = item.currentTarget.dataset.folder;
+
+            await getsongs(`songs/${folder}`);
+
+            updatePlaylist();
+
+        })
     })
 
 }
@@ -203,17 +218,8 @@ async function main() {
         currentsong.volume = parseInt(e.target.value) / 100
     })
 
-    //Load the playlist whenever card is clicked
-    document.querySelectorAll(".card").forEach(e => {
-        e.addEventListener("click", async item => {
-            const folder = item.currentTarget.dataset.folder;
-
-            await getsongs(`songs/${folder}`);
-
-            updatePlaylist();
-
-        })
-    })
+    //add event to mute the track
+    document.querySelector(".volume i")
 }
 
 main()
