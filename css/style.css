@@ -374,7 +374,6 @@ body{
     .cardContainer{
         justify-content: center;
         margin: 0;
-        max-height: 45vh;
         flex-wrap: wrap;
     }
 
@@ -391,12 +390,29 @@ body{
     .songinfo,.songtime{
         width: auto;
     }
+    
+    .cardContainer{
+        max-height: auto;
+        overflow-y: unset;
+    }
+
 }
 
 @media (max-width:500px) {
 
     .spotifyPlaylists .card{
-        width: auto;
+        width: 100%;
     }
 
+    .header>*{
+        padding: 2px;
+    }
+
+    .buttons>*{
+        margin: 0 6px;
+    }
+
+    .spotifyPlaylists h1{
+        padding: 4px;
+    }
 }
