@@ -26,13 +26,13 @@ async function getsongs(folder) {
     div.innerHTML = response
     let as = div.getElementsByTagName("a")
 
-    let songs = [];
+    s = [];
     for (let i = 0; i < as.length; i++) {
         const ele = as[i]
         if (ele.href.endsWith(".mp3"))
-            songs.push(ele.href.split(`/${folder}/`)[1]);
+            s.push(ele.href.split(`/${folder}/`)[1]);
     }
-    return songs
+   
 }
 
 const playmusic=(track,pause=false)=>{
@@ -49,14 +49,10 @@ const playmusic=(track,pause=false)=>{
     document.querySelector(".songtime").innerHTML="00:00 / 00:00"
 }
 
-async function main() {
-
-    //get list of all the songs
-    s=await getsongs("songs/ncs")
-    playmusic(s[0],true)
-
-    //show all the songs in the playlist
+const updatePlaylist=()=>{
+        //show all the songs in the playlist
     let songUL=document.querySelector(".songList").getElementsByTagName("ul")[0]
+    songUL.innerHTML=""
 
     for(const song of s){
         songUL.innerHTML=songUL.innerHTML + ` <li>
@@ -80,6 +76,35 @@ async function main() {
         playmusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
         })
     })
+
+}
+
+const displayAlbums=async ()=>{
+    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/songs/`)
+    let response = await a.text();
+
+    let div = document.createElement("div")
+    div.innerHTML = response
+
+    let anchors=div.getElementsByTagName("a")
+    let folders=[]
+    Array.from(anchors).forEach(e=>{
+        if(e.href.includes("/songs")){
+            console.log(e.href.split("/").slice(-1))
+        }
+    })
+    
+}
+
+async function main() {
+
+    //get list of all the songs
+    await getsongs("songs/ncs")
+    playmusic(s[0],true)
+
+    displayAlbums()
+
+    updatePlaylist();
 
     //attach event listener for prev play next
     play.addEventListener("click",()=>{
@@ -151,6 +176,18 @@ async function main() {
     //add an event to volume
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change",(e)=>{
         currentsong.volume=parseInt(e.target.value)/100
+    })
+
+    //Load the playlist whenever card is clicked
+    document.querySelectorAll(".card").forEach(e=>{
+        e.addEventListener("click",async item=>{
+            const folder = item.currentTarget.dataset.folder;
+        
+            await getsongs(`songs/${folder}`);
+        
+            updatePlaylist();
+    
+        })
     })
 }
 
