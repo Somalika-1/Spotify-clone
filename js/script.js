@@ -19,7 +19,7 @@ function secondsToMinutesSeconds(seconds) {
 async function getsongs(folder) {
     currFolder = folder;
 
-    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/${folder}/`)
+    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/public/${folder}/`)
     let response = await a.text();
 
     let div = document.createElement("div")
@@ -36,7 +36,7 @@ async function getsongs(folder) {
 }
 
 const playmusic = (track, pause = false) => {
-    currentsong.src = `/Spotify%20clone/${currFolder}/` + track
+    currentsong.src = `/Spotify%20clone/public/${currFolder}/` + track
 
     if (!pause) {
         currentsong.play()
@@ -80,7 +80,7 @@ const updatePlaylist = () => {
 }
 
 const displayAlbums = async () => {
-    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/songs/`)
+    let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/public/songs/`)
     let response = await a.text();
 
     let div = document.createElement("div")
@@ -103,7 +103,7 @@ const displayAlbums = async () => {
             
             //get metadata of the folder
 
-                let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/songs/${folder}/info.json`)
+                let a = await fetch(`http://127.0.0.1:5500/Spotify%20clone/public/songs/${folder}/info.json`)
                 let response = await a.json();
 
                 let cardContainer = document.querySelector(".cardContainer")
@@ -112,7 +112,7 @@ const displayAlbums = async () => {
                 <i class="fa-solid fa-play" style="color: #000000"></i>
             </div>
 
-            <img src="./songs/${folder}/cover.jpg" alt="">
+            <img src="./public/songs/${folder}/cover.jpg" alt="">
             <h2>${response.title}</h2>
             <p>${response.description}</p>
         </div>`
