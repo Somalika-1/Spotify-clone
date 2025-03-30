@@ -36,7 +36,7 @@ async function getsongs(folder) {
 }
 
 const playmusic = (track, pause = false) => {
-    currentsong.src = `/Spotify%20clone/${currFolder}/` + track
+    currentsong.src = `http://127.0.0.1:5500/Spotify%20clone/${currFolder}/` + track;
 
     if (!pause) {
         currentsong.play()
@@ -47,6 +47,7 @@ const playmusic = (track, pause = false) => {
 
     document.querySelector(".songinfo").innerHTML = decodeURI(track)
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00"
+    
 }
 
 const updatePlaylist = () => {
